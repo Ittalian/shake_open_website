@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shake_open_website/add_website.dart';
 
 import 'firebase_options.dart';
 
@@ -18,8 +21,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyWidget(),
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MyWidget(),
+        '/add': (context) => const AddWebsite(),
+      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -32,67 +40,92 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  final TextEditingController _controller = TextEditingController();
+  void moveAddPage() {
+    Navigator.pushNamed(context, '/add');
+  }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  Color getTileColor(int index) {
+    switch (index % 2) {
+      case 0:
+        return Colors.white;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  String storeFavorite(String favorite) {
+    if (favorite == "true") {
+      return "お気に入り";
+    } else {
+      return "リスト";
+    }
+  }
+
+  Query<Map<String, dynamic>> getFavoritableSnapShot(bool favorite) {
+    return FirebaseFirestore.instance
+        .collection('website')
+        .where('favorite', isEqualTo: favorite);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Container(
-                height: double.infinity,
-                alignment: Alignment.topCenter,
-                //1
-                child: StreamBuilder<QuerySnapshot>(
-                  //2
-                  stream: FirebaseFirestore.instance
-                      .collection('dream')
-                      .orderBy('createdAt')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text('エラーが発生しました');
-                    }
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    //3
-                    final list = snapshot.requireData.docs
-                        .map<String>((DocumentSnapshot document) {
-                      final documentData =
-                          document.data()! as Map<String, dynamic>;
-                      return documentData['content']! as String;
-                    }).toList();
+        body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+              height: double.infinity,
+              alignment: Alignment.topCenter,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: getFavoritableSnapShot(false).snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('エラーが発生しました');
+                  }
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final list = snapshot.requireData.docs
+                      .map<List<String>>((DocumentSnapshot document) {
+                    final documentData =
+                        document.data()! as Map<String, dynamic>;
+                    return [
+                      documentData['title']! as String,
+                      documentData['favorite']!.toString(),
+                    ];
+                  }).toList();
 
-                    final reverseList = list.reversed.toList();
+                  final reverseList = list.reversed.toList();
 
-                    return ListView.builder(
-                      itemCount: reverseList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Center(
-                          child: Text(
-                            reverseList[index],
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: reverseList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        tileColor: getTileColor(index),
+                        title: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              reverseList[index][0],
+                              style: const TextStyle(fontSize: 20),
+                            )),
+                      );
+                    },
+                  );
+                },
+              )),
         ),
-      ),
-    );
+        ElevatedButton(
+            onPressed: moveAddPage,
+            child: const Text(
+              "追加",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ))
+      ],
+    ));
   }
 }
