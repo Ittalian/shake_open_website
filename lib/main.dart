@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shake_open_website/add_website.dart';
+import 'package:shake_open_website/edit_website.dart';
 
 import 'firebase_options.dart';
 
@@ -26,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyWidget(),
         '/add': (context) => const AddWebsite(),
+        '/edit': (context) => const EditWebsite(),
       },
       debugShowCheckedModeBanner: false,
     );
@@ -40,14 +40,20 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
+  String favoriteTitle = '';
+
   void moveAddPage() {
     Navigator.pushNamed(context, '/add');
+  }
+
+  void moveEditPage() {
+    Navigator.pushNamed(context, '/edit');
   }
 
   Color getTileColor(int index) {
     switch (index % 2) {
       case 0:
-        return Colors.white;
+        return Colors.tealAccent;
       default:
         return Colors.grey;
     }
@@ -68,55 +74,94 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   @override
+  void initState() {
+    getFavoritableSnapShot(true).get().then((QuerySnapshot snapshot) {
+      setState(() {
+        try {
+          favoriteTitle = snapshot.docs.first['title'];
+        } catch (e) {
+          favoriteTitle = "設定されていません";
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          child: Container(
-              height: double.infinity,
+        const Padding(padding: EdgeInsets.only(top: 50)),
+        Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            alignment: Alignment.center,
+            child: const Text(
+              "シェイクで開くサイト",
+              style: TextStyle(fontSize: 20),
+            )),
+        ListTile(
+          tileColor: Colors.blueGrey,
+          title: Container(
               alignment: Alignment.topCenter,
-              child: StreamBuilder<QuerySnapshot>(
-                stream: getFavoritableSnapShot(false).snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text('エラーが発生しました');
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  final list = snapshot.requireData.docs
-                      .map<List<String>>((DocumentSnapshot document) {
-                    final documentData =
-                        document.data()! as Map<String, dynamic>;
-                    return [
-                      documentData['title']! as String,
-                      documentData['favorite']!.toString(),
-                    ];
-                  }).toList();
-
-                  final reverseList = list.reversed.toList();
-
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: reverseList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        tileColor: getTileColor(index),
-                        title: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              reverseList[index][0],
-                              style: const TextStyle(fontSize: 20),
-                            )),
-                      );
-                    },
-                  );
-                },
+              child: Text(
+                favoriteTitle,
+                style: const TextStyle(fontSize: 20),
               )),
         ),
+        SingleChildScrollView(
+            child: Container(
+          margin: const EdgeInsets.only(bottom: 30),
+          alignment: Alignment.topCenter,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: getFavoritableSnapShot(false).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Text('エラーが発生しました');
+              }
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final list = snapshot.requireData.docs
+                  .map<List<String>>((DocumentSnapshot document) {
+                final documentData = document.data()! as Map<String, dynamic>;
+                return [
+                  documentData['title']! as String,
+                  documentData['favorite']!.toString(),
+                  documentData['url']!.toString(),
+                ];
+              }).toList();
+
+              final reverseList = list.reversed.toList();
+
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: reverseList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(children: [
+                    Expanded(child: ListTile(
+                      tileColor: getTileColor(index),
+                      title: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            reverseList[index][0],
+                            style: const TextStyle(fontSize: 20),
+                          )),
+                    )),
+                    ElevatedButton(
+                        onPressed: moveEditPage,
+                        child: const Text(
+                          "編集",
+                          style: TextStyle(fontSize: 20),
+                        ))
+                  ]);
+                },
+              );
+            },
+          ),
+        )),
         ElevatedButton(
             onPressed: moveAddPage,
             child: const Text(
