@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shake_open_website/add_website.dart';
 import 'package:shake_open_website/edit_website.dart';
 
@@ -25,7 +26,14 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyWidget(),
         '/add': (context) => const AddWebsite(),
-        '/edit': (context) => const EditWebsite(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/edit') {
+          return MaterialPageRoute(
+              builder: (context) =>
+                  EditWebsite(documentId: settings.arguments.toString()));
+        }
+        return null;
       },
       debugShowCheckedModeBanner: false,
     );
@@ -46,8 +54,15 @@ class _MyWidgetState extends State<MyWidget> {
     Navigator.pushNamed(context, '/add');
   }
 
-  void moveEditPage() {
-    Navigator.pushNamed(context, '/edit');
+  void moveEditPage(String documentId) {
+    Navigator.of(context).pushNamed('/edit', arguments: documentId);
+  }
+
+  Future<void> deletePage(String documentId) async {
+    await FirebaseFirestore.instance
+        .collection('website')
+        .doc(documentId)
+        .delete();
   }
 
   Color getTileColor(int index) {
@@ -130,6 +145,7 @@ class _MyWidgetState extends State<MyWidget> {
                   documentData['title']! as String,
                   documentData['favorite']!.toString(),
                   documentData['url']!.toString(),
+                  document.id,
                 ];
               }).toList();
 
@@ -140,23 +156,29 @@ class _MyWidgetState extends State<MyWidget> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: reverseList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Row(children: [
-                    Expanded(child: ListTile(
-                      tileColor: getTileColor(index),
-                      title: Container(
+                  return ListTile(
+                    tileColor: getTileColor(index),
+                    title: Row(children: [
+                      Container(
                           alignment: Alignment.center,
                           child: Text(
                             reverseList[index][0],
                             style: const TextStyle(fontSize: 20),
                           )),
-                    )),
-                    ElevatedButton(
-                        onPressed: moveEditPage,
-                        child: const Text(
-                          "編集",
-                          style: TextStyle(fontSize: 20),
-                        ))
-                  ]);
+                      ElevatedButton(
+                          onPressed: () => moveEditPage(reverseList[index][3]),
+                          child: const Text(
+                            "編集",
+                            style: TextStyle(fontSize: 20),
+                          )),
+                      ElevatedButton(
+                          onPressed: () => deletePage(reverseList[index][3]),
+                          child: const Text(
+                            "削除",
+                            style: TextStyle(fontSize: 20),
+                          )),
+                    ]),
+                  );
                 },
               );
             },

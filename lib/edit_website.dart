@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditWebsite extends StatefulWidget {
-  const EditWebsite({super.key});
+  final String documentId;
+  const EditWebsite({super.key, required this.documentId});
 
   @override
   State<EditWebsite> createState() => _EditWebsite();
@@ -28,10 +29,11 @@ class _EditWebsite extends State<EditWebsite> {
     });
   }
 
-  Future<void> addSite() async {
+  Future<void> editSite() async {
     await FirebaseFirestore.instance
         .collection('website')
-        .add({'title': title, 'url': url, 'favorite': favorite});
+        .doc(widget.documentId)
+        .set({'title': title, 'url': url, 'favorite': favorite});
   }
 
   @override
@@ -58,7 +60,7 @@ class _EditWebsite extends State<EditWebsite> {
             onChanged: setUrl,
           )),
           ElevatedButton(
-            onPressed: addSite,
+            onPressed: editSite,
             child: const Text(
               '追加',
               style: TextStyle(
