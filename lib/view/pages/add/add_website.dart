@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shake_open_website/controller/add_page_controller.dart';
 
-class EditWebsite extends StatefulWidget {
-  final String documentId;
-  const EditWebsite({super.key, required this.documentId});
+class AddWebsite extends StatefulWidget {
+  const AddWebsite({super.key});
 
   @override
-  State<EditWebsite> createState() => _EditWebsite();
+  State<AddWebsite> createState() => _AddWebsite();
 }
 
-class _EditWebsite extends State<EditWebsite> {
+class _AddWebsite extends State<AddWebsite> {
   final titleController = TextEditingController();
   final urlController = TextEditingController();
   String title = '';
@@ -27,13 +26,6 @@ class _EditWebsite extends State<EditWebsite> {
     setState(() {
       url = value;
     });
-  }
-
-  Future<void> editSite() async {
-    await FirebaseFirestore.instance
-        .collection('website')
-        .doc(widget.documentId)
-        .set({'title': title, 'url': url, 'favorite': favorite});
   }
 
   @override
@@ -60,7 +52,7 @@ class _EditWebsite extends State<EditWebsite> {
             onChanged: setUrl,
           )),
           ElevatedButton(
-            onPressed: editSite,
+            onPressed: AddPageController(title: title, url: url, favorite: favorite).addSite,
             child: const Text(
               '追加',
               style: TextStyle(
