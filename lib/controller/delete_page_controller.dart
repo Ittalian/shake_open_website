@@ -4,7 +4,7 @@ class DeletePageController {
   const DeletePageController({required this.documentId});
   final String documentId;
 
-  Future<void> deleteTile(String documentId) async {
+  Future<void> deleteTile() async {
     await FirebaseFirestore.instance
         .collection('website')
         .doc(documentId)

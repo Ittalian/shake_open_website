@@ -5,7 +5,7 @@ class EditPageController {
       {required this.documentId,
       required this.title,
       required this.url,
-      required this.favorite});
+      required this.favorite,});
   final String documentId;
   final String title;
   final String url;

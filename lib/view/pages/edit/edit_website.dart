@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shake_open_website/controller/edit_page_controller.dart';
+import 'package:shake_open_website/model/navigation.dart';
 
 class EditWebsite extends StatefulWidget {
   final String documentId;
@@ -53,9 +54,17 @@ class _EditWebsite extends State<EditWebsite> {
             onChanged: setUrl,
           )),
           ElevatedButton(
-            onPressed: EditPageController(documentId: widget.documentId, title: title, url: url, favorite: favorite).editSite,
+            onPressed: () {
+              EditPageController(
+                      documentId: widget.documentId,
+                      title: title,
+                      url: url,
+                      favorite: favorite)
+                  .editSite();
+              const Navigation().moveHomePage(context);
+            },
             child: const Text(
-              '追加',
+              '編集',
               style: TextStyle(
                 fontSize: 20,
               ),

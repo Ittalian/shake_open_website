@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shake_open_website/controller/add_page_controller.dart';
+import 'package:shake_open_website/model/navigation.dart';
 
 class AddWebsite extends StatefulWidget {
   const AddWebsite({super.key});
@@ -52,7 +53,10 @@ class _AddWebsite extends State<AddWebsite> {
             onChanged: setUrl,
           )),
           ElevatedButton(
-            onPressed: AddPageController(title: title, url: url, favorite: favorite).addSite,
+            onPressed: () {
+              AddPageController(title: title, url: url, favorite: favorite).addSite();
+              const Navigation().moveHomePage(context);
+            },
             child: const Text(
               '追加',
               style: TextStyle(
