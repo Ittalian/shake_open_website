@@ -11,8 +11,8 @@ class Navigation {
     Navigator.pushNamed(context, '/add');
   }
 
-  void moveEditPage(BuildContext context, String documentId) {
-    Navigator.of(context)
-        .pushNamed('/edit', arguments: documentId);
+  void moveEditPage(BuildContext context, String currentTile) {
+    Navigator.of(context).pushNamed('/edit',
+        arguments: currentTile);
   }
 }

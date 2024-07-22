@@ -3,20 +3,31 @@ import 'package:shake_open_website/controller/edit_page_controller.dart';
 import 'package:shake_open_website/model/navigation.dart';
 
 class EditWebsite extends StatefulWidget {
-  final String documentId;
-  const EditWebsite({super.key, required this.documentId});
+  final String currenTile;
+  const EditWebsite({super.key, required this.currenTile});
 
   @override
   State<EditWebsite> createState() => _EditWebsite();
 }
 
 class _EditWebsite extends State<EditWebsite> {
-  final titleController = TextEditingController();
-  final urlController = TextEditingController();
+  List<String> currentTileList = [];
+  TextEditingController titleController = TextEditingController();
+  TextEditingController urlController = TextEditingController();
   String title = '';
   String url = '';
   bool favorite = false;
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    currentTileList = widget.currenTile.split('+');
+    titleController = TextEditingController(text: currentTileList[1]);
+    urlController = TextEditingController(text: currentTileList[2]);
+    title = currentTileList[1];
+    url = currentTileList[2];
+  }
 
   void setTitle(String value) {
     setState(() {
@@ -27,6 +38,12 @@ class _EditWebsite extends State<EditWebsite> {
   void setUrl(String value) {
     setState(() {
       url = value;
+    });
+  }
+
+  void setFavorite(bool? value) {
+    setState(() {
+      favorite = value!;
     });
   }
 
@@ -53,10 +70,23 @@ class _EditWebsite extends State<EditWebsite> {
             controller: urlController,
             onChanged: setUrl,
           )),
+          const Padding(padding: EdgeInsets.only(top: 20)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "シェイクで開く",
+                style: TextStyle(fontSize: 20),
+              ),
+              const Padding(padding: EdgeInsets.only(right: 20)),
+              Checkbox(value: favorite, onChanged: setFavorite)
+            ],
+          ),
+          const Padding(padding: EdgeInsets.only(top: 20)),
           ElevatedButton(
-            onPressed: () {
-              EditPageController(
-                      documentId: widget.documentId,
+            onPressed: () async {
+              await EditPageController(
+                      documentId: widget.currenTile.split('+')[0],
                       title: title,
                       url: url,
                       favorite: favorite)

@@ -31,7 +31,7 @@ class ButtonTileList extends StatelessWidget {
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           ElevatedButton(
               onPressed: () => const Navigation()
-                  .moveEditPage(context, reverseList[index][3]),
+                  .moveEditPage(context, '${reverseList[index][3]}+${reverseList[index][0]}+${reverseList[index][2]}'),
               child: const Text(
                 "編集",
                 style: TextStyle(fontSize: 20),

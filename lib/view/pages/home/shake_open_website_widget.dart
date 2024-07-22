@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shake_open_website/model/navigation.dart';
 import 'package:shake_open_website/view/tiles/button_tile_list.dart';
 import 'package:shake_open_website/view/tiles/tile_list.dart';
@@ -62,13 +61,23 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
         children: [
           const Padding(padding: EdgeInsets.only(top: 50)),
           Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 20),
               alignment: Alignment.center,
               child: const Text(
                 "シェイクで開くサイト",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
-          Tilelist(title: favoriteTitle, color: Colors.blueGrey, documentId: documentId),
+          Tilelist(
+              title: favoriteTitle,
+              color: Colors.blueGrey,
+              documentId: documentId),
+          Container(
+              margin: const EdgeInsets.only(top: 50),
+              alignment: Alignment.center,
+              child: const Text(
+                "登録済みサイト",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
           SingleChildScrollView(
               child: Container(
             margin: const EdgeInsets.only(bottom: 30),

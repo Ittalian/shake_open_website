@@ -18,7 +18,7 @@ class ShakeOpenWebsite extends StatelessWidget {
         if (settings.name == '/edit') {
           return MaterialPageRoute(
               builder: (context) =>
-                  EditWebsite(documentId: settings.arguments.toString()));
+                  EditWebsite(currenTile: settings.arguments.toString()));
         }
         return null;
       },
