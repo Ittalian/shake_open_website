@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shake_open_website/controller/delete_page_controller.dart';
+import 'package:shake_open_website/model/message.dart';
 
 class ConfirmDialog {
   const ConfirmDialog();
 
-  Future<bool> show(BuildContext context, bool favorite) async {
+  Future<bool> show(BuildContext context, String text, bool favorite) async {
     await showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: const Text("このサイトを「シェイクで開く」設定にしますか？"),
+          title: Text(text),
           actions: <Widget>[
             TextButton(
                 onPressed: () async {
@@ -27,5 +29,30 @@ class ConfirmDialog {
       },
     );
     return favorite;
+  }
+
+  Future<void> showDelete(BuildContext context, String text, String documentId) async {
+    await showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(text),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () async {
+                  await DeletePageController(documentId: documentId).deleteTile();
+                  const Message().informChange(context, '削除しました');
+                  Navigator.pop(context);
+                },
+                child: const Text("はい")),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("いいえ")),
+          ],
+        );
+      },
+    );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shake_open_website/controller/delete_page_controller.dart';
+import 'package:shake_open_website/model/confirm_dialog.dart';
 import 'package:shake_open_website/model/navigation.dart';
 
 class ButtonTileList extends StatelessWidget {
@@ -30,16 +30,17 @@ class ButtonTileList extends StatelessWidget {
             )),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           ElevatedButton(
-              onPressed: () => const Navigation()
-                  .moveEditPage(context, '${reverseList[index][3]}+${reverseList[index][0]}+${reverseList[index][2]}'),
+              onPressed: () => const Navigation().moveEditPage(context,
+                  '${reverseList[index][3]}+${reverseList[index][0]}+${reverseList[index][2]}'),
               child: const Text(
                 "編集",
                 style: TextStyle(fontSize: 20),
               )),
           const Padding(padding: EdgeInsets.only(right: 10)),
           ElevatedButton(
-              onPressed: DeletePageController(documentId: reverseList[index][3])
-                  .deleteTile,
+              onPressed: () async {
+                await const ConfirmDialog().showDelete(context, "本当に削除しますか？", reverseList[index][3]);
+              },
               child: const Text(
                 "削除",
                 style: TextStyle(fontSize: 20),
