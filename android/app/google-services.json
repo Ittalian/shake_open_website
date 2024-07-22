@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "880869886908",
+    "project_id": "shake-open-website",
+    "storage_bucket": "shake-open-website.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880869886908:android:28179b13d9df6b15e579b9",
+        "android_client_info": {
+          "package_name": "com.example.shake_open_website"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAlLz2f82nPI0AzlJk9kaAAG9cIHZOVe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
