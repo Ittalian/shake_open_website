@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shake_open_website/controller/add_page_controller.dart';
+import 'package:shake_open_website/model/confirm_dialog.dart';
+import 'package:shake_open_website/model/database.dart';
 import 'package:shake_open_website/model/navigation.dart';
 
 class AddWebsite extends StatefulWidget {
@@ -53,8 +55,14 @@ class _AddWebsite extends State<AddWebsite> {
             onChanged: setUrl,
           )),
           ElevatedButton(
-            onPressed: () {
-              AddPageController(title: title, url: url, favorite: favorite).addSite();
+            onPressed: () async {
+              favorite = await const ConfirmDialog().show(context, favorite);
+              print(favorite);
+              if (favorite) {
+                await const Database().turnFalseCurrentFavorite();
+              }
+              AddPageController(title: title, url: url, favorite: favorite)
+                  .addSite();
               const Navigation().moveHomePage(context);
             },
             child: const Text(

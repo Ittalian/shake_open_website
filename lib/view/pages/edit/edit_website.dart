@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shake_open_website/controller/edit_page_controller.dart';
+import 'package:shake_open_website/model/confirm_dialog.dart';
 import 'package:shake_open_website/model/navigation.dart';
 
 class EditWebsite extends StatefulWidget {
@@ -86,27 +87,7 @@ class _EditWebsite extends State<EditWebsite> {
           ElevatedButton(
             onPressed: () async {
               if (favorite) {
-                await showDialog(
-                  context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                      title: const Text("このサイトを「シェイクで開く」設定にしますか？"),
-                      actions: <Widget>[
-                        TextButton(
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                            child: const Text("はい")),
-                        TextButton(
-                            onPressed: () {
-                              favorite = false;
-                              Navigator.pop(context);
-                            },
-                            child: const Text("いいえ")),
-                      ],
-                    );
-                  },
-                );
+                favorite = await const ConfirmDialog().show(context, favorite);
               }
               await EditPageController(
                       documentId: widget.currenTile.split('+')[0],

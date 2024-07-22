@@ -78,9 +78,9 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
                 "登録済みサイト",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
+          const Padding(padding: EdgeInsets.only(bottom: 20)),
           SingleChildScrollView(
               child: Container(
-            margin: const EdgeInsets.only(bottom: 30),
             alignment: Alignment.topCenter,
             child: StreamBuilder<QuerySnapshot>(
               stream: getFavoritableSnapShot(false).snapshots(),
