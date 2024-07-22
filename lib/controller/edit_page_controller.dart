@@ -24,9 +24,11 @@ class EditPageController {
         String currentFavoriteId = doc.id;
         String currentFavoritetitle = doc['title'];
         String currentFavoriteUrl = doc['url'];
-        await currentFavoriteCollection
-            .doc(currentFavoriteId)
-            .set({'title': currentFavoritetitle, 'url': currentFavoriteUrl, 'favorite': false});
+        await currentFavoriteCollection.doc(currentFavoriteId).set({
+          'title': currentFavoritetitle,
+          'url': currentFavoriteUrl,
+          'favorite': false
+        });
       }
     }
     await FirebaseFirestore.instance
