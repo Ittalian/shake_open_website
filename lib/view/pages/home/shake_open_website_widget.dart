@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 import 'package:shake_open_website/model/navigation.dart';
+import 'package:shake_open_website/model/url_launcher.dart';
 import 'package:shake_open_website/view/tiles/button_tile_list.dart';
 import 'package:shake_open_website/view/tiles/tile_list.dart';
 
@@ -14,6 +16,7 @@ class ShakeOpenWebsiteWidget extends StatefulWidget {
 class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
   String favoriteTitle = '';
   String documentId = '';
+  String url = '';
 
   Color getTileColor(int index) {
     switch (index % 2) {
@@ -40,17 +43,27 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
 
   @override
   void initState() {
+    super.initState();
+    ShakeDetector.autoStart(
+      onPhoneShake: () {
+        UrlLauncher().renderUrl(context, url);
+      },
+      minimumShakeCount: 1,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 1.5,
+    );
     getFavoritableSnapShot(true).get().then((QuerySnapshot snapshot) {
       setState(() {
         try {
           favoriteTitle = snapshot.docs.first['title'];
           documentId = snapshot.docs.first.id;
+          url = snapshot.docs.first['url'];
         } catch (e) {
           favoriteTitle = "設定されていません";
         }
       });
     });
-    super.initState();
   }
 
   @override
