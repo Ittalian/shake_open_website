@@ -44,10 +44,8 @@ class _AddWebsite extends State<AddWebsite> {
             child: Form(
               key: formKey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 50),
-                  ),
                   Material(
                       child: TextFormField(
                     controller: titleController,
@@ -81,7 +79,8 @@ class _AddWebsite extends State<AddWebsite> {
                         fontSize: 20,
                       ),
                     ),
-                  )
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 30)),
                 ],
               ),
             )));

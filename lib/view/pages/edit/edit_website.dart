@@ -61,6 +61,7 @@ class _EditWebsite extends State<EditWebsite> {
             child: Form(
               key: formKey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 50),
