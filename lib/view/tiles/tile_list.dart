@@ -12,15 +12,17 @@ class Tilelist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      tileColor: color,
-      title: Container(
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 20),
-        ),
-      ),
-    );
+    return Container(
+        margin: const EdgeInsets.fromLTRB(10, 0, 30, 10),
+        child: ListTile(
+          tileColor: color,
+          title: Container(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 20),
+            ),
+          ),
+        ));
   }
 }

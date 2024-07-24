@@ -19,34 +19,38 @@ class ButtonTileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      tileColor: getTileColor(index),
-      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Container(
-            alignment: Alignment.center,
-            child: Text(
-              reverseList[index][0],
-              style: const TextStyle(fontSize: 20),
-            )),
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          ElevatedButton(
-              onPressed: () => const Navigation().moveEditPage(context,
-                  '${reverseList[index][3]}+${reverseList[index][0]}+${reverseList[index][2]}'),
-              child: const Text(
-                "編集",
-                style: TextStyle(fontSize: 20),
-              )),
-          const Padding(padding: EdgeInsets.only(right: 10)),
-          ElevatedButton(
-              onPressed: () async {
-                await const ConfirmDialog().showDelete(context, "本当に削除しますか？", reverseList[index][3]);
-              },
-              child: const Text(
-                "削除",
-                style: TextStyle(fontSize: 20),
-              ))
-        ]),
-      ]),
-    );
+    return Container(
+        margin: const EdgeInsets.fromLTRB(10, 0, 30, 10),
+        child: ListTile(
+          tileColor: getTileColor(index),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Container(
+                alignment: Alignment.center,
+                child: Text(
+                  reverseList[index][0],
+                  style: const TextStyle(fontSize: 20),
+                )),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              ElevatedButton(
+                  onPressed: () => const Navigation().moveEditPage(context,
+                      '${reverseList[index][3]}+${reverseList[index][0]}+${reverseList[index][2]}'),
+                  child: const Text(
+                    "編集",
+                    style: TextStyle(fontSize: 20),
+                  )),
+              const Padding(padding: EdgeInsets.only(right: 10)),
+              ElevatedButton(
+                  onPressed: () async {
+                    await const ConfirmDialog().showDelete(
+                        context, "本当に削除しますか？", reverseList[index][3]);
+                  },
+                  child: const Text(
+                    "削除",
+                    style: TextStyle(fontSize: 20),
+                  ))
+            ]),
+          ]),
+        ));
   }
 }

@@ -17,6 +17,7 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
   String favoriteTitle = '';
   String documentId = '';
   String url = '';
+  String registeredSite = '';
 
   Color getTileColor(int index) {
     switch (index % 2) {
@@ -24,14 +25,6 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
         return Colors.tealAccent;
       default:
         return Colors.grey;
-    }
-  }
-
-  String storeFavorite(String favorite) {
-    if (favorite == "true") {
-      return "お気に入り";
-    } else {
-      return "リスト";
     }
   }
 
@@ -93,13 +86,13 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
                   color: Colors.blueGrey,
                   documentId: documentId),
               Container(
-                  margin: const EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 150),
                   alignment: Alignment.center,
-                  child: const Text(
-                    "登録済みサイト",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  child: Text(
+                    registeredSite,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   )),
-              const Padding(padding: EdgeInsets.only(bottom: 20)),
               SingleChildScrollView(
                   child: Container(
                 alignment: Alignment.topCenter,
@@ -125,6 +118,19 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
                     }).toList();
 
                     final reverseList = list.reversed.toList();
+                    if (reverseList.isNotEmpty) {
+                      WidgetsBinding.instance.addPostFrameCallback((timestamp) {
+                        setState(() {
+                          registeredSite = '登録済みサイト';
+                        });
+                      });
+                    } else {
+                      WidgetsBinding.instance.addPostFrameCallback((timestamp) {
+                        setState(() {
+                          registeredSite = '';
+                        });
+                      });
+                    }
 
                     return ListView.builder(
                       shrinkWrap: true,

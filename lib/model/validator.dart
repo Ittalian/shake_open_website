@@ -4,16 +4,16 @@ class Validator {
 
   String? validateTitle() {
     if (value!.isEmpty) {
-      return "入力してね";
+      return "入力してください";
     }
     return null;
   }
 
   String? validateUrl() {
     if (value!.isEmpty) {
-      return "入力してね";
+      return "入力してください";
     } else if (!isValidUrl(value)) {
-      return "URLが存在しません";
+      return "URLの形式が違います";
     }
     return null;
   }

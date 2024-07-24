@@ -39,8 +39,8 @@ class ConfirmDialog {
           title: Text(text),
           actions: <Widget>[
             TextButton(
-                onPressed: () async {
-                  await DeletePageController(documentId: documentId).deleteTile();
+                onPressed: () {
+                  DeletePageController(documentId: documentId).deleteTile();
                   const Message().informChange(context, '削除しました');
                   Navigator.pop(context);
                 },

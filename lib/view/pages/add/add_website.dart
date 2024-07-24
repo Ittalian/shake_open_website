@@ -44,37 +44,56 @@ class _AddWebsite extends State<AddWebsite> {
             )),
             child: Form(
               key: formKey,
+              autovalidateMode: AutovalidateMode.always,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Material(
-                      child: TextFormField(
-                    controller: titleController,
-                    validator: (value) => Validator(value: value).validateTitle(),
-                    onChanged: setTitle,
-                  )),
+                  Container(
+                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Material(
+                          child: TextFormField(
+                        controller: titleController,
+                        validator: (value) =>
+                            Validator(value: value).validateTitle(),
+                        onChanged: setTitle,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.title),
+                          hintText: '例',
+                          labelText: 'タイトル',
+                        ),
+                      ))),
                   const Padding(
                     padding: EdgeInsets.only(top: 20),
                   ),
-                  Material(
-                      child: TextFormField(
-                    controller: urlController,
-                    validator: (value) => Validator(value: value).validateUrl(),
-                    onChanged: setUrl,
-                  )),
+                  Container(
+                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Material(
+                          child: TextFormField(
+                        controller: urlController,
+                        validator: (value) =>
+                            Validator(value: value).validateUrl(),
+                        onChanged: setUrl,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.link),
+                          hintText: 'https://example.com',
+                          labelText: 'URL',
+                        ),
+                      ))),
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   ElevatedButton(
                     onPressed: () async {
-                      favorite = await const ConfirmDialog()
-                          .show(context, "このサイトを「シェイクで開く」設定にしますか？", favorite);
-                      if (favorite) {
-                        await const Database().turnFalseCurrentFavorite();
+                      if (formKey.currentState!.validate()) {
+                        favorite = await const ConfirmDialog()
+                            .show(context, "このサイトを「シェイクで開く」設定にしますか？", favorite);
+                        if (favorite) {
+                          await const Database().turnFalseCurrentFavorite();
+                        }
+                        AddPageController(
+                                title: title, url: url, favorite: favorite)
+                            .addSite();
+                        const Message().informChange(context, '登録しました');
+                        const Navigation().moveHomePage(context);
                       }
-                      AddPageController(
-                              title: title, url: url, favorite: favorite)
-                          .addSite();
-                      const Message().informChange(context, '登録しました');
-                      const Navigation().moveHomePage(context);
                     },
                     child: const Text(
                       '追加',
