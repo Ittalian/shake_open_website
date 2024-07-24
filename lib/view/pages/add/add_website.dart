@@ -4,6 +4,7 @@ import 'package:shake_open_website/model/confirm_dialog.dart';
 import 'package:shake_open_website/model/database.dart';
 import 'package:shake_open_website/model/message.dart';
 import 'package:shake_open_website/model/navigation.dart';
+import 'package:shake_open_website/model/validator.dart';
 
 class AddWebsite extends StatefulWidget {
   const AddWebsite({super.key});
@@ -49,6 +50,7 @@ class _AddWebsite extends State<AddWebsite> {
                   Material(
                       child: TextFormField(
                     controller: titleController,
+                    validator: (value) => Validator(value: value).validateTitle(),
                     onChanged: setTitle,
                   )),
                   const Padding(
@@ -57,6 +59,7 @@ class _AddWebsite extends State<AddWebsite> {
                   Material(
                       child: TextFormField(
                     controller: urlController,
+                    validator: (value) => Validator(value: value).validateUrl(),
                     onChanged: setUrl,
                   )),
                   const Padding(padding: EdgeInsets.only(top: 20)),
