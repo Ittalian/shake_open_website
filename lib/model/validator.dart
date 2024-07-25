@@ -12,13 +12,13 @@ class Validator {
   String? validateUrl() {
     if (value!.isEmpty) {
       return "入力してください";
-    } else if (!isValidUrl(value)) {
+    } else if (!_isValidUrl(value)) {
       return "URLの形式が違います";
     }
     return null;
   }
 
-  bool isValidUrl(String? url) {
+  bool _isValidUrl(String? url) {
     // URLの正規表現
     if (url == null) return false;
     const urlPattern = r'^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$';

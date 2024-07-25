@@ -81,7 +81,7 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
                     "シェイクで開くサイト",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )),
-              Tilelist(
+              Tile(
                   title: favoriteTitle,
                   color: Colors.blueGrey,
                   documentId: documentId),
