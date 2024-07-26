@@ -84,7 +84,7 @@ class _AddWebsite extends State<AddWebsite> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         favorite = await const ConfirmDialog()
-                            .show(context, "このサイトを「シェイクで開く」設定にしますか？", favorite);
+                            .show(context, "シェイクで開く", "このサイトを「シェイクで開く」設定にしますか？", favorite);
                         if (favorite) {
                           await const Database().turnFalseCurrentFavorite();
                         }

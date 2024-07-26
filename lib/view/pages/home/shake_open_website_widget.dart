@@ -43,7 +43,7 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
       },
       minimumShakeCount: 1,
       shakeSlopTimeMS: 500,
-      shakeCountResetTime: 3000,
+      shakeCountResetTime: 500,
       shakeThresholdGravity: 1.5,
     );
     getFavoritableSnapShot(true).get().then((QuerySnapshot snapshot) {

@@ -102,7 +102,7 @@ class _EditWebsite extends State<EditWebsite> {
                       if (formKey.currentState!.validate()) {
                         if (favorite) {
                           favorite = await const ConfirmDialog().show(
-                              context, "このサイトを「シェイクで開く」設定にしますか？", favorite);
+                              context, "シェイクで開く", "このサイトを「シェイクで開く」設定にしますか？", favorite);
                         }
                         await EditPageController(
                                 documentId: widget.currenTile.split('+')[0],

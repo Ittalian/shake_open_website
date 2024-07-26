@@ -71,7 +71,7 @@ class ButtonTileList extends StatelessWidget {
                   ),
                   onPressed: () async {
                     await const ConfirmDialog().showDelete(
-                        context, "本当に削除しますか？", reverseList[index][3]);
+                        context, "注意！", "本当に削除しますか？", reverseList[index][3]);
                   },
                   child: const Text(
                     "削除",
