@@ -13,7 +13,10 @@ class ButtonTileList extends StatelessWidget {
     StringBuffer buffer = StringBuffer();
     for (int i = 0; i < input.length; i += chunkSize) {
       int end = (i + chunkSize < input.length) ? i + chunkSize : input.length;
-      buffer.writeln(input.substring(i, end));
+      buffer.write(input.substring(i, end));
+      if (end < input.length) {
+        buffer.write('\n');
+      }
     }
     return buffer.toString();
   }
@@ -45,9 +48,9 @@ class ButtonTileList extends StatelessWidget {
             Container(
                 alignment: Alignment.center,
                 child: Text(
-                  insertLineBreaks(reverseList[index][0], 8),
+                  insertLineBreaks(reverseList[index][0], 7),
                   style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 )),
