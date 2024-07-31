@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shake_open_website/controller/add_page_controller.dart';
 import 'package:shake_open_website/model/confirm_dialog.dart';
 import 'package:shake_open_website/model/database.dart';
+import 'package:shake_open_website/model/images.dart';
 import 'package:shake_open_website/model/message.dart';
 import 'package:shake_open_website/model/navigation.dart';
 import 'package:shake_open_website/model/validator.dart';
@@ -35,11 +36,12 @@ class _AddWebsite extends State<AddWebsite> {
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = Images().getImagePath();
     return Scaffold(
         body: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('images/add_background.jpg'),
+              image: AssetImage(imagePath),
               fit: BoxFit.cover,
             )),
             child: Form(
@@ -83,8 +85,8 @@ class _AddWebsite extends State<AddWebsite> {
                   ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        favorite = await const ConfirmDialog()
-                            .show(context, "シェイクで開く", "このサイトを「シェイクで開く」設定にしますか？", favorite);
+                        favorite = await const ConfirmDialog().show(context,
+                            "シェイクで開く", "このサイトを「シェイクで開く」設定にしますか？", favorite);
                         if (favorite) {
                           await const Database().turnFalseCurrentFavorite();
                         }

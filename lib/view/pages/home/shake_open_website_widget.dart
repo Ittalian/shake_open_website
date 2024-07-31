@@ -75,23 +75,23 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
             children: [
               const Padding(padding: EdgeInsets.only(top: 50)),
               Container(
-                  margin: const EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(top: 130),
                   alignment: Alignment.center,
                   child: const Text(
                     "シェイクで開くサイト",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                   )),
               Tile(
                   title: favoriteTitle,
                   color: Colors.blueGrey,
                   documentId: documentId),
               Container(
-                  margin: const EdgeInsets.only(top: 150),
+                  margin: const EdgeInsets.only(top: 50),
                   alignment: Alignment.center,
                   child: Text(
                     registeredSite,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                        fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                   )),
               SingleChildScrollView(
                   child: Container(

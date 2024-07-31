@@ -48,7 +48,7 @@ class ButtonTileList extends StatelessWidget {
             Container(
                 alignment: Alignment.center,
                 child: Text(
-                  insertLineBreaks(reverseList[index][0], 7),
+                  insertLineBreaks(reverseList[index][0], 5),
                   style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -56,6 +56,7 @@ class ButtonTileList extends StatelessWidget {
                 )),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               ElevatedButton(
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorCalulater.getComplementaryColor(
                         colorCalulater.getTileColor(index)),
@@ -64,7 +65,7 @@ class ButtonTileList extends StatelessWidget {
                       '${reverseList[index][3]}+${reverseList[index][0]}+${reverseList[index][2]}'),
                   child: const Text(
                     "編集",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 15),
                   )),
               const Padding(padding: EdgeInsets.only(right: 10)),
               ElevatedButton(
@@ -78,7 +79,7 @@ class ButtonTileList extends StatelessWidget {
                   },
                   child: const Text(
                     "削除",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 15),
                   ))
             ]),
           ]),
