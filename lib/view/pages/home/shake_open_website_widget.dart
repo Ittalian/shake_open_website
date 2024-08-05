@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
+import 'package:shake_open_website/model/images.dart';
 import 'package:shake_open_website/model/navigation.dart';
 import 'package:shake_open_website/model/url_launcher.dart';
 import 'package:shake_open_website/view/tiles/button_tile_list.dart';
@@ -18,6 +19,7 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
   String documentId = '';
   String url = '';
   String registeredSite = '';
+  String imagePath = '';
 
   Color getTileColor(int index) {
     switch (index % 2) {
@@ -37,6 +39,7 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
   @override
   void initState() {
     super.initState();
+    imagePath = Images().getHomeImagePath();
     ShakeDetector.autoStart(
       onPhoneShake: () {
         UrlLauncher().renderUrl(context, url);
@@ -62,9 +65,9 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/home_background.jpg'),
+            image: AssetImage(imagePath),
             fit: BoxFit.cover,
           ),
         ),
@@ -79,7 +82,10 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
                   alignment: Alignment.center,
                   child: const Text(
                     "シェイクで開くサイト",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   )),
               Tile(
                   title: favoriteTitle,
@@ -91,7 +97,9 @@ class _MyWidgetState extends State<ShakeOpenWebsiteWidget> {
                   child: Text(
                     registeredSite,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   )),
               SingleChildScrollView(
                   child: Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shake_open_website/controller/edit_page_controller.dart';
 import 'package:shake_open_website/model/confirm_dialog.dart';
+import 'package:shake_open_website/model/images.dart';
 import 'package:shake_open_website/model/message.dart';
 import 'package:shake_open_website/model/navigation.dart';
 import 'package:shake_open_website/model/validator.dart';
@@ -52,11 +53,12 @@ class _EditWebsite extends State<EditWebsite> {
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = Images().getEditImagePath();
     return Scaffold(
         body: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('images/edit_background.jpg'),
+              image: AssetImage(imagePath),
               fit: BoxFit.cover,
             )),
             child: Form(
@@ -65,25 +67,26 @@ class _EditWebsite extends State<EditWebsite> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: const EdgeInsets.fromLTRB(30, 80, 30, 0),
-                    child: Material(
-                      child: TextFormField(
-                    controller: titleController,
-                    validator: (value) =>
-                        Validator(value: value).validateTitle(),
-                    onChanged: setTitle,
-                  ))),
+                      margin: const EdgeInsets.fromLTRB(30, 80, 30, 0),
+                      child: Material(
+                          child: TextFormField(
+                        controller: titleController,
+                        validator: (value) =>
+                            Validator(value: value).validateTitle(),
+                        onChanged: setTitle,
+                      ))),
                   const Padding(
                     padding: EdgeInsets.only(top: 20),
                   ),
                   Container(
-                    margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: Material(
-                      child: TextFormField(
-                    controller: urlController,
-                    validator: (value) => Validator(value: value).validateUrl(),
-                    onChanged: setUrl,
-                  ))),
+                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Material(
+                          child: TextFormField(
+                        controller: urlController,
+                        validator: (value) =>
+                            Validator(value: value).validateUrl(),
+                        onChanged: setUrl,
+                      ))),
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -101,8 +104,8 @@ class _EditWebsite extends State<EditWebsite> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         if (favorite) {
-                          favorite = await const ConfirmDialog().show(
-                              context, "シェイクで開く", "このサイトを「シェイクで開く」設定にしますか？", favorite);
+                          favorite = await const ConfirmDialog().show(context,
+                              "シェイクで開く", "このサイトを「シェイクで開く」設定にしますか？", favorite);
                         }
                         await EditPageController(
                                 documentId: widget.currenTile.split('+')[0],

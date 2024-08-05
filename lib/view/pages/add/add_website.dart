@@ -36,7 +36,7 @@ class _AddWebsite extends State<AddWebsite> {
 
   @override
   Widget build(BuildContext context) {
-    String imagePath = Images().getImagePath();
+    String imagePath = Images().getAddImagePath();
     return Scaffold(
         body: Container(
             decoration: BoxDecoration(

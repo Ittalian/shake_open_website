@@ -10,6 +10,7 @@
 .svn/
 *.jpg
 *.png
+.images/
 migrate_working_dir/
 
 # IntelliJ related
